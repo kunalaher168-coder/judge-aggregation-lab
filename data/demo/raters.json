@@ -1,0 +1,53 @@
+{
+  "scenario": "mixed",
+  "n_items": 400,
+  "raters_per_item": 5,
+  "seed": 0,
+  "raters": {
+    "human_1": {
+      "type": "human",
+      "true_accuracy": 0.8,
+      "correlated_group": null
+    },
+    "human_2": {
+      "type": "human",
+      "true_accuracy": 0.65,
+      "correlated_group": null
+    },
+    "human_3": {
+      "type": "human",
+      "true_accuracy": 0.6,
+      "correlated_group": null
+    },
+    "careless_1": {
+      "type": "human",
+      "true_accuracy": 0.27,
+      "correlated_group": null
+    },
+    "llm_strong": {
+      "type": "llm",
+      "true_accuracy": 0.8,
+      "correlated_group": null
+    },
+    "llm_weak": {
+      "type": "llm",
+      "true_accuracy": 0.5,
+      "correlated_group": null
+    },
+    "llm_lenient_a": {
+      "type": "llm",
+      "true_accuracy": 0.465,
+      "correlated_group": null
+    },
+    "llm_lenient_b": {
+      "type": "llm",
+      "true_accuracy": 0.5,
+      "correlated_group": null
+    },
+    "llm_harsh": {
+      "type": "llm",
+      "true_accuracy": 0.5,
+      "correlated_group": null
+    }
+  }
+}

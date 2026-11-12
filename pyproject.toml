@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "judgelab"
+version = "0.1.0"
+description = "Judgement aggregation (majority, weighted, Dawid-Skene) and inter-rater agreement for human and LLM ratings, plus a cost-aware multi-agent LLM judging pipeline."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Kunal Aher" }]
+dependencies = ["numpy>=1.24"]
+
+[project.optional-dependencies]
+llm = ["anthropic>=1.0"]
+dev = [
+    "pytest>=8",
+    "scikit-learn>=1.3",
+    "statsmodels>=0.14",
+    "krippendorff>=0.6",
+    "ruff>=0.5",
+]
+
+[project.scripts]
+judgelab = "judgelab.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501", "B905"]

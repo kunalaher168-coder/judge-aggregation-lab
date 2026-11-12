@@ -1,0 +1,96 @@
+{"criterion": "policy_fidelity", "item_id": "reply_000", "label": "pass"}
+{"correct_refund": "229.49", "criterion": "refund_calculation", "item_id": "reply_000", "label": "fail"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_000", "label": "fail"}
+{"criterion": "professional_tone", "item_id": "reply_000", "label": "pass"}
+{"criterion": "policy_fidelity", "item_id": "reply_001", "label": "fail"}
+{"correct_refund": "31.50", "criterion": "refund_calculation", "item_id": "reply_001", "label": "fail"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_001", "label": "fail"}
+{"criterion": "professional_tone", "item_id": "reply_001", "label": "fail"}
+{"criterion": "policy_fidelity", "item_id": "reply_002", "label": "fail"}
+{"correct_refund": "217.00", "criterion": "refund_calculation", "item_id": "reply_002", "label": "fail"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_002", "label": "pass"}
+{"criterion": "professional_tone", "item_id": "reply_002", "label": "fail"}
+{"criterion": "policy_fidelity", "item_id": "reply_003", "label": "pass"}
+{"correct_refund": "144.95", "criterion": "refund_calculation", "item_id": "reply_003", "label": "pass"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_003", "label": "pass"}
+{"criterion": "professional_tone", "item_id": "reply_003", "label": "fail"}
+{"criterion": "policy_fidelity", "item_id": "reply_004", "label": "pass"}
+{"correct_refund": "34.00", "criterion": "refund_calculation", "item_id": "reply_004", "label": "pass"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_004", "label": "fail"}
+{"criterion": "professional_tone", "item_id": "reply_004", "label": "pass"}
+{"criterion": "policy_fidelity", "item_id": "reply_005", "label": "pass"}
+{"correct_refund": "101.35", "criterion": "refund_calculation", "item_id": "reply_005", "label": "fail"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_005", "label": "fail"}
+{"criterion": "professional_tone", "item_id": "reply_005", "label": "pass"}
+{"criterion": "policy_fidelity", "item_id": "reply_006", "label": "fail"}
+{"correct_refund": "187.50", "criterion": "refund_calculation", "item_id": "reply_006", "label": "fail"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_006", "label": "pass"}
+{"criterion": "professional_tone", "item_id": "reply_006", "label": "pass"}
+{"criterion": "policy_fidelity", "item_id": "reply_007", "label": "fail"}
+{"correct_refund": "72.95", "criterion": "refund_calculation", "item_id": "reply_007", "label": "pass"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_007", "label": "pass"}
+{"criterion": "professional_tone", "item_id": "reply_007", "label": "pass"}
+{"criterion": "policy_fidelity", "item_id": "reply_008", "label": "fail"}
+{"correct_refund": "118.11", "criterion": "refund_calculation", "item_id": "reply_008", "label": "fail"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_008", "label": "pass"}
+{"criterion": "professional_tone", "item_id": "reply_008", "label": "fail"}
+{"criterion": "policy_fidelity", "item_id": "reply_009", "label": "fail"}
+{"correct_refund": "103.00", "criterion": "refund_calculation", "item_id": "reply_009", "label": "pass"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_009", "label": "pass"}
+{"criterion": "professional_tone", "item_id": "reply_009", "label": "pass"}
+{"criterion": "policy_fidelity", "item_id": "reply_010", "label": "pass"}
+{"correct_refund": "56.69", "criterion": "refund_calculation", "item_id": "reply_010", "label": "pass"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_010", "label": "fail"}
+{"criterion": "professional_tone", "item_id": "reply_010", "label": "fail"}
+{"criterion": "policy_fidelity", "item_id": "reply_011", "label": "fail"}
+{"correct_refund": "87.30", "criterion": "refund_calculation", "item_id": "reply_011", "label": "pass"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_011", "label": "pass"}
+{"criterion": "professional_tone", "item_id": "reply_011", "label": "pass"}
+{"criterion": "policy_fidelity", "item_id": "reply_012", "label": "fail"}
+{"correct_refund": "187.00", "criterion": "refund_calculation", "item_id": "reply_012", "label": "pass"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_012", "label": "pass"}
+{"criterion": "professional_tone", "item_id": "reply_012", "label": "fail"}
+{"criterion": "policy_fidelity", "item_id": "reply_013", "label": "pass"}
+{"correct_refund": "121.21", "criterion": "refund_calculation", "item_id": "reply_013", "label": "pass"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_013", "label": "pass"}
+{"criterion": "professional_tone", "item_id": "reply_013", "label": "pass"}
+{"criterion": "policy_fidelity", "item_id": "reply_014", "label": "pass"}
+{"correct_refund": "107.44", "criterion": "refund_calculation", "item_id": "reply_014", "label": "pass"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_014", "label": "pass"}
+{"criterion": "professional_tone", "item_id": "reply_014", "label": "fail"}
+{"criterion": "policy_fidelity", "item_id": "reply_015", "label": "pass"}
+{"correct_refund": "144.22", "criterion": "refund_calculation", "item_id": "reply_015", "label": "pass"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_015", "label": "pass"}
+{"criterion": "professional_tone", "item_id": "reply_015", "label": "fail"}
+{"criterion": "policy_fidelity", "item_id": "reply_016", "label": "fail"}
+{"correct_refund": "119.95", "criterion": "refund_calculation", "item_id": "reply_016", "label": "fail"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_016", "label": "fail"}
+{"criterion": "professional_tone", "item_id": "reply_016", "label": "pass"}
+{"criterion": "policy_fidelity", "item_id": "reply_017", "label": "pass"}
+{"correct_refund": "164.01", "criterion": "refund_calculation", "item_id": "reply_017", "label": "fail"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_017", "label": "pass"}
+{"criterion": "professional_tone", "item_id": "reply_017", "label": "fail"}
+{"criterion": "policy_fidelity", "item_id": "reply_018", "label": "pass"}
+{"correct_refund": "21.60", "criterion": "refund_calculation", "item_id": "reply_018", "label": "fail"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_018", "label": "fail"}
+{"criterion": "professional_tone", "item_id": "reply_018", "label": "pass"}
+{"criterion": "policy_fidelity", "item_id": "reply_019", "label": "fail"}
+{"correct_refund": "13.24", "criterion": "refund_calculation", "item_id": "reply_019", "label": "fail"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_019", "label": "fail"}
+{"criterion": "professional_tone", "item_id": "reply_019", "label": "pass"}
+{"criterion": "policy_fidelity", "item_id": "reply_020", "label": "pass"}
+{"correct_refund": "147.20", "criterion": "refund_calculation", "item_id": "reply_020", "label": "fail"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_020", "label": "pass"}
+{"criterion": "professional_tone", "item_id": "reply_020", "label": "pass"}
+{"criterion": "policy_fidelity", "item_id": "reply_021", "label": "pass"}
+{"correct_refund": "182.00", "criterion": "refund_calculation", "item_id": "reply_021", "label": "pass"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_021", "label": "fail"}
+{"criterion": "professional_tone", "item_id": "reply_021", "label": "pass"}
+{"criterion": "policy_fidelity", "item_id": "reply_022", "label": "pass"}
+{"correct_refund": "129.50", "criterion": "refund_calculation", "item_id": "reply_022", "label": "pass"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_022", "label": "fail"}
+{"criterion": "professional_tone", "item_id": "reply_022", "label": "fail"}
+{"criterion": "policy_fidelity", "item_id": "reply_023", "label": "fail"}
+{"correct_refund": "159.00", "criterion": "refund_calculation", "item_id": "reply_023", "label": "fail"}
+{"criterion": "no_unsupported_promises", "item_id": "reply_023", "label": "fail"}
+{"criterion": "professional_tone", "item_id": "reply_023", "label": "fail"}

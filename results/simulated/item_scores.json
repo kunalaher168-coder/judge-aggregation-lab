@@ -1,0 +1,170 @@
+{
+  "reply_000": {
+    "all_pass": false,
+    "failed": 2,
+    "passed": 2,
+    "score": 0.5,
+    "unknown": 0
+  },
+  "reply_001": {
+    "all_pass": false,
+    "failed": 4,
+    "passed": 0,
+    "score": 0.0,
+    "unknown": 0
+  },
+  "reply_002": {
+    "all_pass": false,
+    "failed": 3,
+    "passed": 1,
+    "score": 0.25,
+    "unknown": 0
+  },
+  "reply_003": {
+    "all_pass": false,
+    "failed": 1,
+    "passed": 3,
+    "score": 0.75,
+    "unknown": 0
+  },
+  "reply_004": {
+    "all_pass": false,
+    "failed": 1,
+    "passed": 3,
+    "score": 0.75,
+    "unknown": 0
+  },
+  "reply_005": {
+    "all_pass": false,
+    "failed": 2,
+    "passed": 2,
+    "score": 0.5,
+    "unknown": 0
+  },
+  "reply_006": {
+    "all_pass": false,
+    "failed": 2,
+    "passed": 2,
+    "score": 0.5,
+    "unknown": 0
+  },
+  "reply_007": {
+    "all_pass": false,
+    "failed": 1,
+    "passed": 3,
+    "score": 0.75,
+    "unknown": 0
+  },
+  "reply_008": {
+    "all_pass": false,
+    "failed": 3,
+    "passed": 1,
+    "score": 0.25,
+    "unknown": 0
+  },
+  "reply_009": {
+    "all_pass": false,
+    "failed": 1,
+    "passed": 3,
+    "score": 0.75,
+    "unknown": 0
+  },
+  "reply_010": {
+    "all_pass": false,
+    "failed": 2,
+    "passed": 2,
+    "score": 0.5,
+    "unknown": 0
+  },
+  "reply_011": {
+    "all_pass": false,
+    "failed": 1,
+    "passed": 3,
+    "score": 0.75,
+    "unknown": 0
+  },
+  "reply_012": {
+    "all_pass": false,
+    "failed": 1,
+    "passed": 3,
+    "score": 0.75,
+    "unknown": 0
+  },
+  "reply_013": {
+    "all_pass": true,
+    "failed": 0,
+    "passed": 4,
+    "score": 1.0,
+    "unknown": 0
+  },
+  "reply_014": {
+    "all_pass": false,
+    "failed": 1,
+    "passed": 3,
+    "score": 0.75,
+    "unknown": 0
+  },
+  "reply_015": {
+    "all_pass": false,
+    "failed": 2,
+    "passed": 2,
+    "score": 0.5,
+    "unknown": 0
+  },
+  "reply_016": {
+    "all_pass": false,
+    "failed": 3,
+    "passed": 1,
+    "score": 0.25,
+    "unknown": 0
+  },
+  "reply_017": {
+    "all_pass": false,
+    "failed": 3,
+    "passed": 1,
+    "score": 0.25,
+    "unknown": 0
+  },
+  "reply_018": {
+    "all_pass": false,
+    "failed": 2,
+    "passed": 2,
+    "score": 0.5,
+    "unknown": 0
+  },
+  "reply_019": {
+    "all_pass": false,
+    "failed": 3,
+    "passed": 1,
+    "score": 0.25,
+    "unknown": 0
+  },
+  "reply_020": {
+    "all_pass": false,
+    "failed": 1,
+    "passed": 3,
+    "score": 0.75,
+    "unknown": 0
+  },
+  "reply_021": {
+    "all_pass": false,
+    "failed": 1,
+    "passed": 3,
+    "score": 0.75,
+    "unknown": 0
+  },
+  "reply_022": {
+    "all_pass": false,
+    "failed": 2,
+    "passed": 2,
+    "score": 0.5,
+    "unknown": 0
+  },
+  "reply_023": {
+    "all_pass": false,
+    "failed": 4,
+    "passed": 0,
+    "score": 0.0,
+    "unknown": 0
+  }
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "policy_fidelity",
+    "name": "Policy fidelity",
+    "judge_instructions": "Every policy fact the reply states (return window, restocking fee percentage, who pays return shipping) matches the policy text. Fail if any stated fact contradicts the policy."
+  },
+  {
+    "id": "refund_calculation",
+    "name": "Refund calculation",
+    "judge_instructions": "The refund amount the reply gives is exactly correct to the cent for this order under the policy (restocking fee charged on the item price for opened, non-defective items; return label deducted unless defective or shipping is free)."
+  },
+  {
+    "id": "no_unsupported_promises",
+    "name": "No unsupported promises",
+    "judge_instructions": "The reply does not offer anything the policy rules out (store credit, gifts, discounts, shipping upgrades). Promises the policy does provide, such as a prepaid label for a defective item, are fine."
+  },
+  {
+    "id": "professional_tone",
+    "name": "Professional tone",
+    "judge_instructions": "The reply is courteous and does not blame, lecture or talk down to the customer."
+  }
+]
