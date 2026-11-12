@@ -145,3 +145,11 @@ def test_cli_anthropic_requires_confirmation(tmp_path):
         ]
     )
     assert code == 2 and not (tmp_path / "x").exists()
+
+
+def test_cli_judge_rejects_zero_limit(tmp_path):
+    data = tmp_path / "support"
+    main(["make-judge-data", "--n", "4", "--out-dir", str(data)])
+    args = ["judge", "--items", str(data / "items.jsonl"), "--rubric", str(data / "rubric.md")]
+    assert main([*args, "--limit", "0", "--out-dir", str(tmp_path / "x")]) == 2
+    assert not (tmp_path / "x").exists()

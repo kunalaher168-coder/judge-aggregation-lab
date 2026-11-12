@@ -128,11 +128,20 @@ def test_anthropic_backend_logs_fallback_model():
 
 @pytest.mark.parametrize(
     "client",
-    [FakeClient(stop="refusal"), FakeClient(stop="max_tokens"), FakeClient(text="not json")],
+    [
+        FakeClient(stop="refusal"),
+        FakeClient(stop="max_tokens"),
+        FakeClient(text="not json"),
+        FakeClient(text="[1, 2]"),
+    ],
 )
-def test_anthropic_backend_failures_raise(client):
-    with pytest.raises(BackendError):
+def test_anthropic_backend_failures_raise_and_keep_billing(client):
+    with pytest.raises(BackendError) as info:
         _call(AnthropicBackend(client=client), "claude-haiku-5-5")
+    # the API answered, so the call was billed: the error carries its accounting
+    billed = info.value.response
+    assert billed is not None and billed.input_tokens == 1000 and billed.output_tokens == 200
+    assert billed.cost_usd == pytest.approx(call_cost("claude-haiku-5-5", 1000, 200))
 
 
 def test_judge_records_error_instead_of_crashing():
@@ -142,6 +151,17 @@ def test_judge_records_error_instead_of_crashing():
     crit = Criterion("tone", "Tone", "be nice")
     verdict, rec = judge_one(be, "claude-haiku-5-5", "haiku", crit, {"item_id": "i1", "text": "hi"})
     assert verdict.verdict is None and rec.error and rec.tier == "haiku"
+    # an unusable answer is still a billed call
+    assert rec.cost_usd == pytest.approx(call_cost("claude-haiku-5-5", 1000, 200))
+    assert rec.request_id == "req_test"
+
+
+def test_refused_judge_call_is_logged_with_its_cost():
+    be = AnthropicBackend(client=FakeClient(stop="refusal"))
+    crit = Criterion("tone", "Tone", "be nice")
+    verdict, rec = judge_one(be, "claude-opus-5-5", "opus", crit, {"item_id": "i1", "text": "hi"})
+    assert verdict.verdict is None and rec.error.startswith("refusal")
+    assert rec.output_tokens == 200 and rec.cost_usd > 0
 
 
 def test_planner_falls_back_to_rubric_ids():

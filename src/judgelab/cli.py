@@ -151,7 +151,12 @@ def cmd_judge(a) -> int:
     from judgelab.agents.roles import _BRACKET_ID
     from judgelab.agents.routing import routing_markdown, routing_policies, tier_table
 
-    items = read_jsonl(a.items)[: a.limit] if a.limit else read_jsonl(a.items)
+    items = read_jsonl(a.items)
+    if a.limit is not None:
+        if a.limit < 1:
+            print("--limit must be at least 1", file=sys.stderr)
+            return 2
+        items = items[: a.limit]
     rubric = Path(a.rubric).read_text(encoding="utf-8")
     tiers = [t.strip() for t in a.tiers.split(",") if t.strip()]
     truth_rows = read_jsonl(a.truth) if a.truth else []
@@ -166,7 +171,7 @@ def cmd_judge(a) -> int:
         n_crit = len(_BRACKET_ID.findall(rubric)) or 4
         est = _estimate_cost(len(items), n_crit, tiers, not a.no_reconcile)
         print(
-            f"estimated upper-bound spend: ${est:.2f} for {len(items)} items x {n_crit} criteria x {len(tiers)} tier(s)"
+            f"conservative spend estimate: ${est:.2f} for {len(items)} items x {n_crit} criteria x {len(tiers)} tier(s)"
         )
         if not a.confirm_spend:
             print("refusing to call the API without --confirm-spend", file=sys.stderr)

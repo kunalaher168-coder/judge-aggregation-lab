@@ -126,13 +126,19 @@ def plan_criteria(
             meta={"agent": "planner"},
         )
     except BackendError as exc:
-        record = CallRecord.failed("planner", model, None, None, time.perf_counter() - t0, str(exc))
+        record = CallRecord.failed(
+            "planner", model, None, None, time.perf_counter() - t0, str(exc), exc.response
+        )
         return [Criterion(**c) for c in _parse_rubric_criteria(rubric)], record
     record = CallRecord.from_response("planner", resp, None, None)
-    criteria = [
-        Criterion(c["id"].strip(), c["name"].strip(), c["judge_instructions"].strip())
-        for c in resp.data.get("criteria", [])
-    ]
+    try:
+        criteria = [
+            Criterion(c["id"].strip(), c["name"].strip(), c["judge_instructions"].strip())
+            for c in resp.data.get("criteria", [])
+        ]
+    except (KeyError, TypeError, AttributeError) as exc:
+        criteria = []
+        record.error = f"malformed planner output ({exc!r})"
     if expected and sorted(c.id for c in criteria) != sorted(expected):
         record.error = (
             f"planner ids {[c.id for c in criteria]} != rubric ids {expected}; used rubric text"
@@ -159,6 +165,7 @@ def judge_one(
     )
     meta = {"agent": "judge", "item_id": item["item_id"], "criterion": criterion.id}
     t0 = time.perf_counter()
+    resp = None
     try:
         resp = backend.complete_json(
             model=model,
@@ -172,7 +179,13 @@ def judge_one(
         verdict, conf, why = _clean_verdict(resp.data)
     except BackendError as exc:
         rec = CallRecord.failed(
-            "judge", model, item["item_id"], criterion.id, time.perf_counter() - t0, str(exc)
+            "judge",
+            model,
+            item["item_id"],
+            criterion.id,
+            time.perf_counter() - t0,
+            str(exc),
+            exc.response or resp,
         )
         rec.tier = tier
         return Verdict(item["item_id"], criterion.id, tier, None, None, ""), rec
@@ -204,6 +217,7 @@ def reconcile(
     )
     meta = {"agent": "reconciler", "item_id": item["item_id"], "criterion": criterion.id}
     t0 = time.perf_counter()
+    resp = None
     try:
         resp = backend.complete_json(
             model=model,
@@ -217,7 +231,13 @@ def reconcile(
         verdict, conf, why = _clean_verdict(resp.data)
     except BackendError as exc:
         rec = CallRecord.failed(
-            "reconciler", model, item["item_id"], criterion.id, time.perf_counter() - t0, str(exc)
+            "reconciler",
+            model,
+            item["item_id"],
+            criterion.id,
+            time.perf_counter() - t0,
+            str(exc),
+            exc.response or resp,
         )
         return Verdict(item["item_id"], criterion.id, "reconciler", None, None, ""), rec
     rec = CallRecord.from_response("reconciler", resp, item["item_id"], criterion.id)

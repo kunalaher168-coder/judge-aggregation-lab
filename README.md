@@ -15,7 +15,7 @@ All data is synthetic, with known ground truth, and everything except the live C
 
 ```bash
 pip install -e ".[dev,llm]"          # Python 3.10+
-pytest -q                             # 47 tests, no API key needed
+pytest -q                             # 50 tests, no API key needed
 
 # 1. judgement aggregation on a synthetic rating set with known truth
 judgelab synth --scenario mixed --items 400 --out data/demo/ratings.jsonl --truth data/demo/truth.jsonl
@@ -149,7 +149,7 @@ Some correct replies include promises the policy does allow (a prepaid label for
 
 ### Live Claude run
 
-Run on 2026-11-12 against the Claude API: 24 items x 4 criteria x 3 tiers, effort `low`, 8 parallel workers. 290 calls (1 planner, 288 judges, 1 reconciler), 0 errors, 0 refusal fallbacks (every call was answered by the model it asked for), 83 s wall clock, **$0.94 total** against a pre-run upper bound of $4.24. Full output: [`results/live/routing.md`](results/live/routing.md); every call, with its rationale, is in `results/live/calls.jsonl`.
+Run on 2026-11-12 against the Claude API: 24 items x 4 criteria x 3 tiers, effort `low`, 8 parallel workers. 290 calls (1 planner, 288 judges, 1 reconciler), 0 errors, 0 refusal fallbacks (every call was answered by the model it asked for), 83 s wall clock, **$0.94 total** against the CLI's deliberately conservative pre-run estimate of $4.24. Full output: [`results/live/routing.md`](results/live/routing.md); every call, with its rationale, is in `results/live/calls.jsonl`.
 
 | Tier | Model | Judgements | Accuracy (95% CI) | Mean latency (s) | p95 latency (s) | Cost (USD) | Cost per 100 judgements |
 |---|---|---|---|---|---|---|---|
@@ -206,7 +206,7 @@ src/judgelab/
     pipeline.py   orchestration (concurrent judges, reconcile on disagreement)
     routing.py    tier table and routing-policy replay
     dataset.py    synthetic support-reply data and rubric
-tests/            47 tests: reference cross-checks, EM properties, CLI, pipeline with a fake API client
+tests/            50 tests: reference cross-checks, EM properties, CLI, pipeline with a fake API client
 results/          benchmark, demo report, simulated and live pipeline runs
 ```
 

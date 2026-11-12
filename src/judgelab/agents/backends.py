@@ -23,7 +23,16 @@ FALLBACK_BETA = "server-side-fallback-2026-07-01"
 
 
 class BackendError(RuntimeError):
-    """A call failed (API error, refusal, truncation or unparseable output)."""
+    """A call failed (API error, refusal, truncation or unparseable output).
+
+    `response` is set when the API did answer, and so billed the call, but the
+    answer was unusable; the failed call is then logged with its real tokens
+    and cost instead of $0.
+    """
+
+    def __init__(self, message: str, response: LLMResponse | None = None):
+        super().__init__(message)
+        self.response = response
 
 
 @dataclass
@@ -67,8 +76,21 @@ class CallRecord:
 
     @classmethod
     def failed(
-        cls, agent: str, model: str, item_id, criterion, latency_s: float, error: str
+        cls,
+        agent: str,
+        model: str,
+        item_id,
+        criterion,
+        latency_s: float,
+        error: str,
+        response: LLMResponse | None = None,
     ) -> CallRecord:
+        """A failed call. With `response` (the API answered but the answer was
+        unusable), the record keeps that call's tokens, cost and latency."""
+        if response is not None:
+            rec = cls.from_response(agent, response, item_id, criterion)
+            rec.error = error
+            return rec
         return cls(
             agent,
             tier_for(model),
@@ -179,20 +201,8 @@ class AnthropicBackend:
             raise BackendError(f"connection_error: {exc}") from exc
         latency = time.perf_counter() - t0
 
-        if resp.stop_reason == "refusal":
-            details = getattr(resp, "stop_details", None)
-            category = getattr(details, "category", None) if details else None
-            raise BackendError(f"refusal (category={category})")
-        if resp.stop_reason == "max_tokens":
-            raise BackendError("max_tokens reached before the JSON answer was complete")
-        text = next((b.text for b in resp.content if getattr(b, "type", None) == "text"), None)
-        if text is None:
-            raise BackendError(f"no text block in response (stop_reason={resp.stop_reason})")
-        try:
-            data = json.loads(text)
-        except json.JSONDecodeError as exc:
-            raise BackendError(f"unparseable JSON output: {exc}") from exc
-
+        # Accounting first: from here on the call has been billed, even if the
+        # answer turns out to be unusable.
         usage = resp.usage
         served = getattr(resp, "model", None) or model
         in_tok = int(getattr(usage, "input_tokens", 0) or 0)
@@ -203,8 +213,8 @@ class AnthropicBackend:
             cost = call_cost(served, in_tok, out_tok, c_read, c_write)
         except KeyError:
             cost = call_cost(model, in_tok, out_tok, c_read, c_write)
-        return LLMResponse(
-            data=data,
+        billed = LLMResponse(
+            data={},
             model=model,
             served_model=served,
             latency_s=latency,
@@ -216,6 +226,26 @@ class AnthropicBackend:
             stop_reason=resp.stop_reason,
             request_id=getattr(resp, "_request_id", None),
         )
+
+        if resp.stop_reason == "refusal":
+            details = getattr(resp, "stop_details", None)
+            category = getattr(details, "category", None) if details else None
+            raise BackendError(f"refusal (category={category})", billed)
+        if resp.stop_reason == "max_tokens":
+            raise BackendError("max_tokens reached before the JSON answer was complete", billed)
+        text = next((b.text for b in resp.content if getattr(b, "type", None) == "text"), None)
+        if text is None:
+            raise BackendError(
+                f"no text block in response (stop_reason={resp.stop_reason})", billed
+            )
+        try:
+            data = json.loads(text)
+        except json.JSONDecodeError as exc:
+            raise BackendError(f"unparseable JSON output: {exc}", billed) from exc
+        if not isinstance(data, dict):
+            raise BackendError(f"expected a JSON object, got {type(data).__name__}", billed)
+        billed.data = data
+        return billed
 
 
 # --------------------------------------------------------------------------
