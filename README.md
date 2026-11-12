@@ -149,7 +149,31 @@ Some correct replies include promises the policy does allow (a prepaid label for
 
 ### Live Claude run
 
-**Status: not yet run.** It needs an `ANTHROPIC_API_KEY`. For the default 24 items x 4 criteria x 3 tiers (1 planner call, 288 judge calls, one reconciler call per disagreement) the CLI puts an upper bound of $4.24 on the spend and refuses to call the API without `--confirm-spend`. When it has run, `results/live/routing.md` holds the measured tier and routing tables.
+Run on 2026-11-12 against the Claude API: 24 items x 4 criteria x 3 tiers, effort `low`, 8 parallel workers. 290 calls (1 planner, 288 judges, 1 reconciler), 0 errors, 0 refusal fallbacks (every call was answered by the model it asked for), 83 s wall clock, **$0.94 total** against a pre-run upper bound of $4.24. Full output: [`results/live/routing.md`](results/live/routing.md); every call, with its rationale, is in `results/live/calls.jsonl`.
+
+| Tier | Model | Judgements | Accuracy (95% CI) | Mean latency (s) | p95 latency (s) | Cost (USD) | Cost per 100 judgements |
+|---|---|---|---|---|---|---|---|
+| haiku | claude-haiku-5-5 | 96 | 99.0% (94-100) | 1.63 | 2.23 | 0.0165 | 0.017 |
+| sonnet | claude-sonnet-5-5 | 96 | 100.0% (96-100) | 2.05 | 2.62 | 0.2967 | 0.309 |
+| opus | claude-opus-5-5 | 96 | 100.0% (96-100) | 2.24 | 2.80 | 0.5925 | 0.617 |
+
+| Routing policy | Accuracy (95% CI) | Cost (USD) | Cost vs opus only | Mean latency per judgement (s) | Escalated |
+|---|---|---|---|---|---|
+| haiku only | 99.0% (94-100) | 0.0165 | 3% | 1.63 | 0% |
+| haiku -> opus if haiku confidence < 0.8 | 100.0% (96-100) | 0.0226 | 4% | 1.65 | 1% |
+| haiku -> opus if haiku confidence < 0.9 | 100.0% (96-100) | 0.0806 | 14% | 1.87 | 10% |
+| sonnet only | 100.0% (96-100) | 0.2967 | 50% | 2.05 | 0% |
+| haiku + sonnet, opus only on disagreement | 100.0% (96-100) | 0.3193 | 54% | 2.13 | 1% |
+| opus only | 100.0% (96-100) | 0.5925 | 100% | 2.24 | 0% |
+| pipeline: panel + aggregator agent | 100.0% (96-100) | 0.9135 | 154% | 2.36 | 1% |
+
+(7 of 12 policies shown.) What the run shows:
+
+- **This dataset is too easy to rank the tiers.** All three tiers score 99-100%, and the confidence intervals overlap completely. The run supports "Haiku matched Opus here at 3% of the cost". It does not support "Haiku is as good a judge as Opus". Separating the tiers needs harder items (see Limitations).
+- **The one error was criterion bleed, not a reading error.** Haiku failed `policy_fidelity` on `reply_000` because the reply offered store credit. The judge instructions route offers to `no_unsupported_promises`. Haiku's own rationale says it knew this and penalised the offer anyway.
+- **Confidence carried signal on that error.** Haiku gave it 0.6, its lowest confidence in the run, so the `haiku -> opus if confidence < 0.8` cascade escalated 1 judgement in 96, fixed the error, and stayed at 4% of opus-only cost. With one error this is an anecdote, not a calibration result.
+- **The aggregator worked as designed.** Only 1 of 96 panels disagreed. The reconciler (Opus) ruled `pass`, citing the instruction that sends offers to another criterion, and it cost $0.008.
+- **Latency was flat across tiers at effort `low`.** Mean 1.6 s for Haiku vs 2.2 s for Opus per call. Cost differed about 36x between Haiku and Opus, latency only 1.4x.
 
 `results/simulated/` holds the same pipeline run against `SimulatedBackend`, an offline test double whose verdicts are the known truth flipped at fixed per-tier error rates. That run checks the plumbing and the routing maths; its numbers are not a measurement of any model, so they are not reported here.
 
@@ -159,7 +183,7 @@ Some correct replies include promises the policy does allow (a prepaid label for
 - **Dawid-Skene assumes conditional independence.** The `correlated_llm` scenario shows it failing: judges that share errors are over-trusted. Mitigations not implemented here: model judges from one family as one rater, or use a model with rater correlations.
 - **Data hunger.** A full confusion matrix has K x (K-1) free parameters per rater. With few ratings per rater, the smoothing prior dominates; a one-coin (single accuracy) variant would be more stable and is not included.
 - **No item difficulty.** Models such as GLAD, which give each item its own difficulty, are out of scope.
-- **Small judge benchmark.** 24 items x 4 criteria = 96 judgements per tier, so the 95% interval on an accuracy near 90% spans about 12 pp. Differences between tiers smaller than that are not significant. The templated replies are also easier to parse than real support conversations.
+- **Small, easy judge benchmark.** 24 items x 4 criteria = 96 judgements per tier, so the 95% interval on an accuracy near 90% spans about 12 pp, and differences between tiers smaller than that are not significant. The live run also hit the ceiling: the templated replies, with one injected defect type per criterion, were easy for every tier (99-100%). The routing replay is only informative on data where the cheap tier makes real errors. That means longer conversations, defects that need multi-step arithmetic, or criteria that interact. This repo does not include such data yet.
 - **Self-reported confidence.** The cascades route on the judge's own confidence, which LLMs calibrate poorly; the replay measures how well that works rather than assuming it.
 - **Prices** are first-party list prices as of 2026-11-03 (`agents/pricing.py`); the relative comparison between tiers matters more than the dollar amounts. Prompts here are too short for prompt caching to apply.
 
@@ -183,7 +207,7 @@ src/judgelab/
     routing.py    tier table and routing-policy replay
     dataset.py    synthetic support-reply data and rubric
 tests/            47 tests: reference cross-checks, EM properties, CLI, pipeline with a fake API client
-results/          benchmark, demo report, simulated pipeline run
+results/          benchmark, demo report, simulated and live pipeline runs
 ```
 
 ## License

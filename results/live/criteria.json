@@ -1,0 +1,22 @@
+[
+  {
+    "id": "policy_fidelity",
+    "name": "Policy fidelity",
+    "judge_instructions": "Use only the store policy and order details supplied with the agent's reply. Look at every policy fact the reply states, such as the return window, the restocking fee percentage, and who pays return shipping. Compare each one to the policy text. PASS if every stated policy fact matches the policy. FAIL if any stated policy fact contradicts the policy, and name the contradiction. Leaving out a policy fact is not a failure; only contradictions count. Ignore whether the final refund amount is calculated correctly, since another judge covers that. Ignore offers or promises of extras such as store credit, gifts, discounts, or shipping upgrades, since another judge covers those. Ignore tone, since another judge covers that."
+  },
+  {
+    "id": "refund_calculation",
+    "name": "Refund calculation",
+    "judge_instructions": "Use only the store policy and order details supplied with the agent's reply. Work out the correct refund to the cent. Start from the amounts in the order details. If the item was opened and is not defective, deduct the restocking fee, calculated as the policy's percentage of the item price only. Deduct the return label cost unless the item is defective or the order's shipping was free. Apply any other rules the policy states. Then compare your figure to the refund amount the reply gives. PASS only if the reply's refund amount exactly equals the correct amount to the cent. FAIL if the amount differs by any amount, including rounding errors, or if the reply gives no refund amount. Show your calculation. Ignore whether other policy facts in the text are worded correctly, unless they change the amount; another judge covers those. Ignore unsupported promises and tone, which other judges cover."
+  },
+  {
+    "id": "no_unsupported_promises",
+    "name": "No unsupported promises",
+    "judge_instructions": "Use only the store policy and order details supplied with the agent's reply. Look for anything the reply offers or promises the customer that the policy rules out, for example store credit, gifts, discounts, or shipping upgrades. PASS if the reply makes no such offer or promise. Promises the policy does provide are fine, such as a prepaid return label for a defective item. FAIL if the reply offers or promises anything the policy rules out, and quote it. Ignore whether the refund amount is correct and whether stated policy facts such as the window, fee percentage, or shipping responsibility are accurate; other judges cover those. Ignore tone, which another judge covers."
+  },
+  {
+    "id": "professional_tone",
+    "name": "Professional tone",
+    "judge_instructions": "Judge only the tone of the agent's reply. PASS if the reply is courteous throughout and does not blame, lecture, or talk down to the customer. FAIL if any part of the reply blames the customer, lectures them, or is condescending or rude, and quote the offending text. Ignore factual accuracy about the policy, whether the refund amount is correct, and whether the reply makes promises the policy rules out; other judges cover all of these."
+  }
+]
